@@ -20,6 +20,10 @@ public class Node : IHeapItem<Node>
     /// </summary>
     public int hCost;
 
+    /// <summary>
+    /// The distances from start to this node
+    /// and from this node to target combined.
+    /// </summary>
     public int FCost
     {
         get
@@ -65,5 +69,27 @@ public class Node : IHeapItem<Node>
             comp = hCost.CompareTo(node.hCost);
         }
         return ~comp;
+    }
+
+    private Color NodeColor
+    {
+        get
+        {
+            return (isBlocked ? Color.red : Color.white);
+        }
+    }
+
+    public void DrawGizmo(float nodeWidth, float height)
+    {
+        Gizmos.color = NodeColor;
+        Gizmos.DrawWireCube(new Vector3(position.x, height / 2, position.z),
+            new Vector3(nodeWidth, height, nodeWidth));
+    }
+
+    public void DrawGizmo(float nodeWidth, float height, Color color)
+    {
+        Gizmos.color = color;
+        Gizmos.DrawWireCube(new Vector3(position.x, height / 2, position.z),
+            new Vector3(nodeWidth, height, nodeWidth));
     }
 }

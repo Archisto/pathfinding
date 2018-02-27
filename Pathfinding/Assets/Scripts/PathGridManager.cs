@@ -11,15 +11,11 @@ public class PathGridManager : MonoBehaviour
 
     private Node[,] grid;
 
-    private GridMover[] gridMovers;
-
     private void Start()
     {
         gridOrigin = Vector3.zero;
         gridOrigin.x = transform.position.x - (gridSize.x / 2);
         gridOrigin.z = transform.position.z - (gridSize.y / 2);
-
-        gridMovers = FindObjectsOfType<GridMover>();
 
         if (halfNodeWidth <= 0)
         {
@@ -91,6 +87,11 @@ public class PathGridManager : MonoBehaviour
         return neighbours.ToArray();
     }
 
+    /// <summary>
+    /// Gets the node which corresponds with the given position.
+    /// </summary>
+    /// <param name="position">a world position</param>
+    /// <returns>a node in the position</returns>
     public Node GetNodeFromWorldPos(Vector3 position)
     {
         float x = (position.x - gridOrigin.x) / (2 * halfNodeWidth);
@@ -125,20 +126,10 @@ public class PathGridManager : MonoBehaviour
         }
     }
 
-    private bool GridMoverIsInNode(Node node)
-    {
-        foreach (GridMover gridMover in gridMovers)
-        {
-            if (gridMover.node != null &&
-                gridMover.node == node)
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
+    /// <summary>
+    /// Gets the grid's size.
+    /// </summary>
+    /// <returns>the grid's size</returns>
     public Vector2Int GetGridSize()
     {
         return new Vector2Int(grid.GetLength(0), grid.GetLength(1));
@@ -148,7 +139,6 @@ public class PathGridManager : MonoBehaviour
     {
         DrawGridBorderGizmo();
         DrawNodeGizmos();
-        DrawGridMoverGizmos();
     }
 
     private void DrawGridBorderGizmo()
@@ -163,39 +153,24 @@ public class PathGridManager : MonoBehaviour
         {
             foreach (Node node in grid)
             {
-                if (node.isBlocked)
-                {
-                    Gizmos.color = Color.black;
-                    DrawNodeGizmo(node.position, 1);
-                }
-                else
-                {
-                    Gizmos.color = Color.white;
-                    DrawNodeGizmo(node.position, 0);
-                }
-
+                float nodeHeight = (node.isBlocked ? 1 : 0);
+                node.DrawGizmo(2 * halfNodeWidth, nodeHeight);
             }
         }
     }
 
-    private void DrawGridMoverGizmos()
-    {
-        if (gridMovers != null)
-        {
-            Gizmos.color = Color.blue;
-            foreach (GridMover gridMover in gridMovers)
-            {
-                if (gridMover.node != null)
-                {
-                    DrawNodeGizmo(gridMover.node.position, 1);
-                }
-            }
-        }
-    }
-
-    public void DrawNodeGizmo(Vector3 position, float height)
-    {
-        Gizmos.DrawWireCube(new Vector3(position.x, height / 2, position.z),
-            new Vector3(2 * halfNodeWidth, height, 2 * halfNodeWidth));
-    }
+    //private void DrawGridMoverGizmos()
+    //{
+    //    if (gridMovers != null)
+    //    {
+    //        Gizmos.color = Color.blue;
+    //        foreach (GridMover gridMover in gridMovers)
+    //        {
+    //            if (gridMover.node != null)
+    //            {
+    //                DrawNodeGizmo(gridMover.node.position, 1);
+    //            }
+    //        }
+    //    }
+    //}
 }

@@ -420,7 +420,7 @@ GameObject:
   - component: {fileID: 629836429}
   - component: {fileID: 629836428}
   m_Layer: 0
-  m_Name: PathTarget
+  m_Name: BlackCapsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -583,7 +583,7 @@ GameObject:
   - component: {fileID: 971079190}
   - component: {fileID: 971079189}
   m_Layer: 0
-  m_Name: PathSeeker
+  m_Name: YellowCapsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

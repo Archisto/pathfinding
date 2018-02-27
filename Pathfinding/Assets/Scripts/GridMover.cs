@@ -11,4 +11,12 @@ public class GridMover : MonoBehaviour
     {
         node = pathGridManager.GetNodeFromWorldPos(transform.position);
     }
+
+    protected virtual void OnDrawGizmos()
+    {
+        if (node != null)
+        {
+            node.DrawGizmo(2 * pathGridManager.halfNodeWidth, 1f, Color.green);
+        }
+    }
 }

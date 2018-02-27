@@ -17,8 +17,11 @@ public class Pathfinding : MonoBehaviour
         {
             Debug.LogError("Could not find a PathGridManager in the scene.");
         }
-
-        totalNodes = grid.GetGridSize().x * grid.GetGridSize().y;
+        else
+        {
+            // Gets the total number of nodes in the grid
+            totalNodes = grid.GetGridSize().x * grid.GetGridSize().y;
+        }
     }
 
     /// <summary>
@@ -36,8 +39,9 @@ public class Pathfinding : MonoBehaviour
         Node startNode = grid.GetNodeFromWorldPos(start);
         Node targetNode = grid.GetNodeFromWorldPos(target);
 
+        // Returns an empty path if either of the ends is invalid
         if (startNode == null || targetNode == null ||
-            targetNode.isBlocked)
+            startNode.isBlocked || targetNode.isBlocked)
         {
             return path;
         }
@@ -55,6 +59,7 @@ public class Pathfinding : MonoBehaviour
             if (currentNode == targetNode)
             {
                 path = RetracePath(startNode, currentNode);
+                break;
             }
             else
             {
@@ -67,7 +72,8 @@ public class Pathfinding : MonoBehaviour
                             currentNode.gCost +
                             GetDistance(currentNode, neighbourNode);
 
-                        bool openListContainsNeighbour = openSet.Contains(neighbourNode);
+                        bool openListContainsNeighbour =
+                            openSet.Contains(neighbourNode);
 
                         if (newMovementCost < neighbourNode.gCost ||
                             !openListContainsNeighbour)

@@ -40,8 +40,10 @@ public class PathSeeker : GridMover
         // TODO
     }
 
-    private void OnDrawGizmos()
+    protected override void OnDrawGizmos()
     {
+        base.OnDrawGizmos();
+
         DrawPathGizmos();
     }
 
@@ -51,8 +53,7 @@ public class PathSeeker : GridMover
         {
             foreach (Node node in path)
             {
-                Gizmos.color = Color.yellow;
-                pathGridManager.DrawNodeGizmo(node.position, 1);
+                node.DrawGizmo(2 * pathGridManager.halfNodeWidth, 0.5f, Color.yellow);
             }
         }
     }
